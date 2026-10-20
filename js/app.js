@@ -22,6 +22,7 @@ class AqilApp {
     this.switchTab("home");
     window.smartHome.loadDevices();
     window.dispatcher.loadOrders();
+    if (window.profileManager) window.profileManager.render();
 
     // Init map simulator
     setTimeout(() => {
@@ -134,6 +135,8 @@ class AqilApp {
       window.finance.render();
     } else if (tabName === "dispatcher") {
       window.dispatcher.render();
+    } else if (tabName === "profile") {
+      if (window.profileManager) window.profileManager.render();
     } else if (tabName === "home" && this.mapSim) {
       setTimeout(() => this.mapSim.resize(), 100);
     }

@@ -13,6 +13,11 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Firebase SDK Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -20,7 +25,9 @@
   <div class="desktop-controls">
     <button id="frame-toggle-btn" onclick="window.app.togglePhoneFrame()">🖥️ To'liq ekran</button>
     <button id="theme-toggle-btn" onclick="window.app.toggleTheme()">🌙</button>
-    <button onclick="window.app.switchTab('profile')">🎓 TMII Titul varag'i</button>
+    <button onclick="window.presentation.openPitchDeck()" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; border: none; font-weight: 700;">🏆 Taqdimot Rejimi (Pitch Deck)</button>
+    <button onclick="window.app.switchTab('profile'); if(window.profileManager) window.profileManager.switchSubView('profile');">👤 Profil & Google</button>
+    <button onclick="window.app.switchTab('profile'); if(window.profileManager) window.profileManager.switchSubView('titul');">🎓 TMII Titul</button>
     <button onclick="window.app.switchTab('dispatcher')">📋 Dispetcher</button>
     <button onclick="window.app.printReport()">🖨️ Chop etish</button>
   </div>
@@ -45,14 +52,17 @@
 
       <!-- APP HEADER -->
       <header class="app-header">
-        <div class="user-badge" onclick="window.app.switchTab('profile')" style="cursor: pointer;">
-          <div class="user-avatar">SN</div>
+        <div class="user-badge" onclick="window.app.switchTab('profile')" style="cursor: pointer;" title="Profilni ko'rish va tahrirlash">
+          <div class="user-avatar" id="header-user-avatar">SN</div>
           <div class="user-meta">
-            <h4>Nozima Sharofiddinova</h4>
-            <p>📍 Farg'ona shahri • TMII 2026</p>
+            <h4 id="header-user-name">Nozima Sharofiddinova</h4>
+            <p id="header-user-meta">📍 Farg'ona shahri • TMII 2026</p>
           </div>
         </div>
         <div class="header-actions">
+          <button class="icon-btn" onclick="window.presentation.openPitchDeck()" title="🏆 Taqdimot Rejimi (Pitch Deck)" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(109, 40, 217, 0.25)); color: #7c3aed;">
+            <span>🏆</span>
+          </button>
           <button class="icon-btn" onclick="window.app.switchTab('dispatcher')" title="Dispetcher xabarlari">
             <span>📋</span>
             <span class="badge-dot"></span>
@@ -338,63 +348,9 @@
           </div>
         </div>
 
-        <!-- ================= TAB 5: TITUL VARAG'I VA MUALLIF (PROFILE) ================= -->
+        <!-- ================= TAB 5: FOYDALANUVCHI PROFILI VA TMII TITUL ================= -->
         <div id="tab-profile" class="tab-view" style="display: none;">
-          
-          <!-- Rasmiy Titul Card -->
-          <div class="titul-card">
-            <div class="titul-emblem">🏛️</div>
-            <div class="titul-title">Toshkent Menejment va Iqtisodiyot Instituti</div>
-            <div class="titul-sub">Farg'ona kampusi • Iqtisodiyot va menejment yo'nalishi</div>
-            
-            <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
-              1-bosqich talabasi innovatsion loyihasi
-            </div>
-
-            <div class="titul-project">
-              “AQLLI UY” BOSHQARUVI VA OILALAR UCHUN KOMPLEKS XIZMATLAR TIZIMI
-            </div>
-
-            <div class="titul-author-box">
-              <div>👤 <b>Loyiha muallifi:</b> Sharofiddinova Nozima Egamberdi qizi</div>
-              <div>🎓 <b>Ta'lim muassasasi:</b> Toshkent menejment va iqtisodiyot instituti Farg'ona filiali</div>
-              <div>📚 <b>Bosqich:</b> 1-bosqich</div>
-              <div>💼 <b>Loyiha turi:</b> Xizmat ko'rsatish va raqamli tadbirkorlik loyihasi</div>
-              <div>📍 <b>Hudud:</b> Farg'ona shahri (keyinchalik viloyat va respublika)</div>
-              <div>📅 <b>Yil:</b> 2026-yil</div>
-            </div>
-
-            <button class="btn-primary" style="margin-top: 10px;" onclick="window.app.printReport()">
-              🖨️ Titul varag'i va hisobotni chop etish (PDF)
-            </button>
-          </div>
-
-          <!-- LOYIHANI O'RGANISH VA ILMIY ASOSLARI -->
-          <div class="finance-metric-card">
-            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">
-              🎯 Loyihaning dolzarbligi va asosiy maqsadi
-            </h4>
-            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px;">
-              Bugungi kunda oilalarda ota-onalar ish bilan band bo'lib, bolalarni maktabdan olib kelish, dam olish kunlari nazorat qilish, maishiy texnika buzilganda usta topish yoki yo'lda avtomobil buzilganda texnik yordam olishga ko'p vaqt sarflanadi.
-            </p>
-            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
-              Ushbu platforma oilalarga vaqtni tejash, ishonchli xodimlardan foydalanish hamda aqlli uy qurilmalari orqali xonadon xavfsizligini bitta qulay mobil ilova orqali boshqarish imkoniyatini taqdim etadi.
-            </p>
-          </div>
-
-          <!-- XAVFSIZLIK KAFOLATLARI -->
-          <div class="finance-metric-card">
-            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--accent);">
-              🛡️ Bolalar xavfsizligi tizimi
-            </h4>
-            <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
-              ✅ <b>Haydovchilar:</b> Hujjatlari, tajribasi va sudlanmaganligi qat'iy tekshiriladi.<br>
-              ✅ <b>Bolalar kreslosi:</b> Yoshiga mos ISOFIX o'rindiqlar va xavfsizlik kamari majburiy.<br>
-              ✅ <b>Maxsus 4 xonali PIN:</b> Bola faqat ota-ona tomonidan tasdiqlangan PIN-kod orqali qabul qilinadi va topshiriladi.<br>
-              ✅ <b>GPS jonli kuzatuv:</b> Harakat yo'nalishi real vaqtda ota-onaning telefonida aks etadi.
-            </div>
-          </div>
-
+          <!-- Dynamically rendered by js/profile.js -->
         </div>
 
         <!-- ================= TAB 6: DISPETCHER / OPERATOR ================= -->
@@ -425,8 +381,8 @@
           <span>Moliya</span>
         </button>
         <button class="nav-item" data-tab="profile" onclick="window.app.switchTab('profile')">
-          <span class="nav-icon">🎓</span>
-          <span>Titul</span>
+          <span class="nav-icon">👤</span>
+          <span>Profil</span>
         </button>
       </nav>
 
@@ -449,8 +405,44 @@
     </div>
   </div>
 
+  <!-- PITCH DECK PRESENTATION MODAL -->
+  <div class="pitch-deck-modal" id="pitch-deck-modal">
+    <div class="pitch-deck-card">
+      <div class="pitch-deck-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">🏆</span>
+          <div>
+            <div style="font-size: 13px; font-weight: 800;">TMII STARTUP TANLOVI 2026</div>
+            <div style="font-size: 10px; opacity: 0.85;">Nozima Sharofiddinova Taqdimoti</div>
+          </div>
+        </div>
+        <button class="icon-btn" style="background: rgba(255,255,255,0.15); color: #fff; width: 32px; height: 32px;" onclick="window.presentation.closePitchDeck()">✕</button>
+      </div>
+
+      <div class="pitch-deck-body">
+        <div id="pitch-slide-container">
+          <!-- Rendered dynamically by presentation.js -->
+        </div>
+      </div>
+
+      <div class="pitch-deck-footer">
+        <button class="hero-btn" id="pitch-prev-btn" style="padding: 6px 14px; font-size: 11px; background: #e2e8f0; color: #334155;" onclick="window.presentation.prevSlide()">
+          ‹ Oldingi
+        </button>
+        <span id="pitch-slide-progress" style="font-size: 12px; font-weight: 700; color: #64748b;">1 / 6</span>
+        <button class="hero-btn" id="pitch-next-btn" style="padding: 6px 16px; font-size: 11px; background: var(--primary-gradient); color: #fff;" onclick="window.presentation.nextSlide()">
+          Keyingi ›
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- SCRIPTS -->
   <script src="js/audio.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/presentation.js"></script>
   <script src="js/map-simulator.js"></script>
   <script src="js/smarthome.js"></script>
   <script src="js/services.js"></script>

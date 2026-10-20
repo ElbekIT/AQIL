@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AQIL — Aqlli Uy va Oilalar Uchun Kompleks Xizmatlar Tizimi</title>
+  
+  <!-- Favicon & PWA meta -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- DESKTOP TOP CONTROLS -->
+  <div class="desktop-controls">
+    <button id="frame-toggle-btn" onclick="window.app.togglePhoneFrame()">🖥️ To'liq ekran</button>
+    <button id="theme-toggle-btn" onclick="window.app.toggleTheme()">🌙</button>
+    <button onclick="window.app.switchTab('profile')">🎓 TMII Titul varag'i</button>
+    <button onclick="window.app.switchTab('dispatcher')">📋 Dispetcher</button>
+    <button onclick="window.app.printReport()">🖨️ Chop etish</button>
+  </div>
+
+  <!-- PHONE FRAME WRAPPER -->
+  <div class="phone-wrapper">
+    <div class="phone-screen">
+
+      <!-- STATUS BAR & DYNAMIC ISLAND -->
+      <div class="status-bar">
+        <span id="status-clock">14:30</span>
+        <div class="dynamic-island" id="dynamic-island" title="Kengaytirish uchun bosing">
+          <span>🚕</span>
+          <span>Cobalt • 8 daq</span>
+        </div>
+        <div class="status-icons">
+          <span>5G</span>
+          <span>📶</span>
+          <span>🔋 98%</span>
+        </div>
+      </div>
+
+      <!-- APP HEADER -->
+      <header class="app-header">
+        <div class="user-badge" onclick="window.app.switchTab('profile')" style="cursor: pointer;">
+          <div class="user-avatar">SN</div>
+          <div class="user-meta">
+            <h4>Nozima Sharofiddinova</h4>
+            <p>📍 Farg'ona shahri • TMII 2026</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" onclick="window.app.switchTab('dispatcher')" title="Dispetcher xabarlari">
+            <span>📋</span>
+            <span class="badge-dot"></span>
+          </button>
+          <button class="icon-btn" onclick="window.app.toggleTheme()" title="Mavzuni almashtirish">
+            <span>🌓</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- SCROLLABLE APP BODY -->
+      <main class="app-body">
+
+        <!-- ================= TAB 1: BOSH SAHIFA (HOME) ================= -->
+        <div id="tab-home" class="tab-view">
+          
+          <!-- Hero Card -->
+          <div class="hero-card">
+            <span class="hero-tag">AQLLI OILA VA XIZMATLAR</span>
+            <h2 class="hero-title">Oilaviy xotirjamlik va aqlli uy boshqaruvi</h2>
+            <p class="hero-desc">
+              Bolalarni maktabdan xavfsiz tashish, dam olish kunlari nazorat, maishiy ta'mir va yo'lda avto yordam — yagona tizimda.
+            </p>
+            <button class="hero-btn" onclick="window.services.openOrderModal('kids_transport')">
+              <span>🚸 Xavfsiz taksi chaqirish</span>
+            </button>
+          </div>
+
+          <!-- JONLI KUZATUV & XAVFSIZLIK PIN KODI -->
+          <div class="live-tracker-card" id="live-tracker-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="live-badge">
+                <span class="live-pulse"></span> JONLI HARAKAT (GPS)
+              </span>
+              <span style="font-size: 11px; font-weight: 700; color: var(--primary);" id="active-order-eta">
+                Yetib kelish: 8 daqiqa
+              </span>
+            </div>
+
+            <!-- Canvas Map Simulation -->
+            <div class="map-container">
+              <canvas id="live-map-canvas" class="interactive-map-canvas"></canvas>
+            </div>
+
+            <div style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;" id="active-order-driver">
+              Otabek Qodirov (Chevrolet Cobalt 40 A 777 BA)
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">
+              Yo'nalish: 2-sonli maktab (Al-Farg'oniy) ➔ B.Marg'inoniy 14-uy
+            </div>
+
+            <!-- Safe PIN code box -->
+            <div class="pin-display-card">
+              <div>
+                <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">
+                  Bolani topshirish xavfsizlik PIN kodi:
+                </div>
+                <div style="font-size: 10px; color: var(--text-light);">
+                  Haydovchi faqat shu kod orqali bolani topshiradi
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="pin-code-badge" id="active-order-pin">4892</span>
+                <button class="icon-btn" style="width: 28px; height: 28px; font-size: 12px;" onclick="window.app.copyPinCode()" title="Nusxalash">
+                  📋
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TEZKOR XIZMATLAR BO'LIMI -->
+          <div class="section-header">
+            <h3><span>⚡</span> Xizmatlar katalogi</h3>
+            <button onclick="window.app.switchTab('services')">Barchasi ›</button>
+          </div>
+
+          <div class="services-grid">
+            <!-- 1. Bolalar taksisi -->
+            <div class="service-card" onclick="window.services.openOrderModal('kids_transport')">
+              <div class="service-icon-box icon-yellow">🚸</div>
+              <div>
+                <h4>Bolalarni tashish</h4>
+                <p>Maktab va bog'chadan xavfsiz olib kelish</p>
+              </div>
+              <div class="service-meta">
+                <span>45 000 so'm</span>
+                <span>Buyurtma ›</span>
+              </div>
+            </div>
+
+            <!-- 2. Enaga va dam olish kuni -->
+            <div class="service-card" onclick="window.services.openOrderModal('weekend_daycare')">
+              <div class="service-icon-box icon-purple">🧸</div>
+              <div>
+                <h4>Dam olish kuni</h4>
+                <p>Shanba-yakshanba bolalar nazorati va o'yinlar</p>
+              </div>
+              <div class="service-meta">
+                <span>60 000 so'm</span>
+                <span>Band qilish ›</span>
+              </div>
+            </div>
+
+            <!-- 3. Maishiy ta'mir -->
+            <div class="service-card" onclick="window.services.openOrderModal('appliance_repair')">
+              <div class="service-icon-box icon-blue">🔧</div>
+              <div>
+                <h4>Maishiy ta'mir</h4>
+                <p>Kir yuvish, muzlatgich, televizor ustalari</p>
+              </div>
+              <div class="service-meta">
+                <span>120 000 so'm</span>
+                <span>Chaqirish ›</span>
+              </div>
+            </div>
+
+            <!-- 4. Avto SOS -->
+            <div class="service-card" onclick="window.services.openOrderModal('roadside_sos')">
+              <div class="service-icon-box icon-red">🚨</div>
+              <div>
+                <h4>Avto SOS yordam</h4>
+                <p>Yo'lda akkumulyator, shina, evakuator</p>
+              </div>
+              <div class="service-meta">
+                <span>170 000 so'm</span>
+                <span>SOS chaqirish ›</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- AQLI UY VIDJETI -->
+          <div class="section-header">
+            <h3><span>💡</span> Aqlli Uy nazorati</h3>
+            <button onclick="window.app.switchTab('smarthome')">Boshqaruv ›</button>
+          </div>
+
+          <div class="smart-home-grid">
+            <div class="smart-tile active" onclick="window.smartHome.toggleDevice('door_lock')">
+              <div class="tile-top">
+                <span class="tile-icon">🔒</span>
+                <div class="toggle-switch"></div>
+              </div>
+              <div class="tile-info">
+                <h5>Aqlli eshik qulfi</h5>
+                <p>Dahliz • Qulflangan</p>
+              </div>
+            </div>
+
+            <div class="smart-tile active" onclick="window.smartHome.toggleDevice('light_living')">
+              <div class="tile-top">
+                <span class="tile-icon">💡</span>
+                <div class="toggle-switch"></div>
+              </div>
+              <div class="tile-info">
+                <h5>Mehmonxona chirog'i</h5>
+                <p>Yorug'lik: 85% • Yoqilgan</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= TAB 2: XIZMATLAR (SERVICES) ================= -->
+        <div id="tab-services" class="tab-view" style="display: none;">
+          <div class="section-header" style="margin-top: 6px;">
+            <h3><span>🗂️</span> Barcha xizmat yo'nalishlari</h3>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+            Farg'ona shahri oilalari uchun 5 ta asosiy yo'nalishda yuqori sifatli va ishonchli xizmatlar.
+          </p>
+
+          <!-- 1. Bolalar taksisi kartasi -->
+          <div class="finance-metric-card">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="service-icon-box icon-yellow" style="margin-bottom: 0;">🚸</div>
+              <div style="flex: 1;">
+                <h4 style="font-size: 14px; font-weight: 700;">Bolalarni maktab va bog'chadan tashish</h4>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 4px 0 8px;">
+                  Ota-onalarning ish vaqti mos kelmaganda farzandlarni xavfsiz manzilga yetkazish. ISOFIX bolalar o'rindig'i, tekshirilgan haydovchilar va 4 xonali PIN kod orqali topshirish.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 13px; font-weight: 800; color: var(--primary);">45 000 so'm</span>
+                  <button class="hero-btn" onclick="window.services.openOrderModal('kids_transport')">Buyurtma berish</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Enaga va dam olish kuni nazorati -->
+          <div class="finance-metric-card">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="service-icon-box icon-purple" style="margin-bottom: 0;">🧸</div>
+              <div style="flex: 1;">
+                <h4 style="font-size: 14px; font-weight: 700;">Dam olish kunlari bolalar nazorati</h4>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 4px 0 8px;">
+                  Shanba va yakshanba soat 09:00 dan 18:00 gacha. Markazda guruh bo'lib yoki xonadonda yakka tartibda. Kitobxonlik, rasm, shaxmat, mantiqiy o'yinlar va uy vazifalariga yordam.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 13px; font-weight: 800; color: var(--purple);">60 000 / 180 000 so'm</span>
+                  <button class="hero-btn" onclick="window.services.openOrderModal('weekend_daycare')">Band qilish</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Maishiy texnika ta'miri -->
+          <div class="finance-metric-card">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="service-icon-box icon-blue" style="margin-bottom: 0;">🔧</div>
+              <div style="flex: 1;">
+                <h4 style="font-size: 14px; font-weight: 700;">Maishiy texnika kafolatli ta'miri</h4>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 4px 0 8px;">
+                  Kir yuvish mashinalari, muzlatgich, televizor va elektr plitalarni joyiga borib diagnostika qilish va ta'mirlash. 6 oygacha rasmiy kafolat bilan.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 13px; font-weight: 800; color: var(--primary);">120 000 so'm</span>
+                  <button class="hero-btn" onclick="window.services.openOrderModal('appliance_repair')">Ustani chaqirish</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Avto SOS -->
+          <div class="finance-metric-card">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="service-icon-box icon-red" style="margin-bottom: 0;">🚨</div>
+              <div style="flex: 1;">
+                <h4 style="font-size: 14px; font-weight: 700;">Avtomobillarga yo'lda tezkor texnik yordam</h4>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 4px 0 8px;">
+                  Yo'lda buzilib qolgan avtomobillarga 10-15 daqiqada yordam. Akkumulyator quvvatlash, g'ildirak almashtirish, avtoelektrik, evakuator hamkorligi.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 13px; font-weight: 800; color: var(--danger);">170 000 so'm</span>
+                  <button class="hero-btn" style="background: var(--danger); color: #fff;" onclick="window.services.openOrderModal('roadside_sos')">SOS yordam</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Ro'zg'or xizmatlari -->
+          <div class="finance-metric-card">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="service-icon-box icon-green" style="margin-bottom: 0;">🏠</div>
+              <div style="flex: 1;">
+                <h4 style="font-size: 14px; font-weight: 700;">Qo'shimcha ro'zg'or xizmatlari</h4>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 4px 0 8px;">
+                  Santexnik, elektrik, uyni tozalash, mebel yig'ish hamda zarur dori-darmon va mahsulotlarni tezkor yetkazib berish.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 13px; font-weight: 800; color: var(--accent);">80 000 so'mdan</span>
+                  <button class="hero-btn" onclick="window.services.openOrderModal('home_services')">Buyurtma berish</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 3: AQLLI UY (SMART HOME) ================= -->
+        <div id="tab-smarthome" class="tab-view" style="display: none;">
+          <div class="section-header" style="margin-top: 6px;">
+            <h3><span>💡</span> “Aqlli Uy” IoT Boshqaruv Markazi</h3>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+            Xonadon xavfsizligi, yoritish, aqlli eshik qulfi va iqlim haroratini masofadan nazorat qilish.
+          </p>
+
+          <div id="smart-home-container">
+            <!-- Rendered dynamically by smarthome.js -->
+          </div>
+        </div>
+
+        <!-- ================= TAB 4: MOLIYA & BIZNES (FINANCE) ================= -->
+        <div id="tab-finance" class="tab-view" style="display: none;">
+          <div class="section-header" style="margin-top: 6px;">
+            <h3><span>📊</span> Biznes-Reja va Moliyaviy Tahlil</h3>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+            1-bosqich talabasi Nozima Sharofiddinovaning iqtisodiy hisob-kitoblari va zararsizlik simulyatori.
+          </p>
+
+          <div id="finance-container">
+            <!-- Rendered dynamically by finance.js -->
+          </div>
+        </div>
+
+        <!-- ================= TAB 5: TITUL VARAG'I VA MUALLIF (PROFILE) ================= -->
+        <div id="tab-profile" class="tab-view" style="display: none;">
+          
+          <!-- Rasmiy Titul Card -->
+          <div class="titul-card">
+            <div class="titul-emblem">🏛️</div>
+            <div class="titul-title">Toshkent Menejment va Iqtisodiyot Instituti</div>
+            <div class="titul-sub">Farg'ona kampusi • Iqtisodiyot va menejment yo'nalishi</div>
+            
+            <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
+              1-bosqich talabasi innovatsion loyihasi
+            </div>
+
+            <div class="titul-project">
+              “AQLLI UY” BOSHQARUVI VA OILALAR UCHUN KOMPLEKS XIZMATLAR TIZIMI
+            </div>
+
+            <div class="titul-author-box">
+              <div>👤 <b>Loyiha muallifi:</b> Sharofiddinova Nozima Egamberdi qizi</div>
+              <div>🎓 <b>Ta'lim muassasasi:</b> Toshkent menejment va iqtisodiyot instituti Farg'ona filiali</div>
+              <div>📚 <b>Bosqich:</b> 1-bosqich</div>
+              <div>💼 <b>Loyiha turi:</b> Xizmat ko'rsatish va raqamli tadbirkorlik loyihasi</div>
+              <div>📍 <b>Hudud:</b> Farg'ona shahri (keyinchalik viloyat va respublika)</div>
+              <div>📅 <b>Yil:</b> 2026-yil</div>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 10px;" onclick="window.app.printReport()">
+              🖨️ Titul varag'i va hisobotni chop etish (PDF)
+            </button>
+          </div>
+
+          <!-- LOYIHANI O'RGANISH VA ILMIY ASOSLARI -->
+          <div class="finance-metric-card">
+            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">
+              🎯 Loyihaning dolzarbligi va asosiy maqsadi
+            </h4>
+            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px;">
+              Bugungi kunda oilalarda ota-onalar ish bilan band bo'lib, bolalarni maktabdan olib kelish, dam olish kunlari nazorat qilish, maishiy texnika buzilganda usta topish yoki yo'lda avtomobil buzilganda texnik yordam olishga ko'p vaqt sarflanadi.
+            </p>
+            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
+              Ushbu platforma oilalarga vaqtni tejash, ishonchli xodimlardan foydalanish hamda aqlli uy qurilmalari orqali xonadon xavfsizligini bitta qulay mobil ilova orqali boshqarish imkoniyatini taqdim etadi.
+            </p>
+          </div>
+
+          <!-- XAVFSIZLIK KAFOLATLARI -->
+          <div class="finance-metric-card">
+            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--accent);">
+              🛡️ Bolalar xavfsizligi tizimi
+            </h4>
+            <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
+              ✅ <b>Haydovchilar:</b> Hujjatlari, tajribasi va sudlanmaganligi qat'iy tekshiriladi.<br>
+              ✅ <b>Bolalar kreslosi:</b> Yoshiga mos ISOFIX o'rindiqlar va xavfsizlik kamari majburiy.<br>
+              ✅ <b>Maxsus 4 xonali PIN:</b> Bola faqat ota-ona tomonidan tasdiqlangan PIN-kod orqali qabul qilinadi va topshiriladi.<br>
+              ✅ <b>GPS jonli kuzatuv:</b> Harakat yo'nalishi real vaqtda ota-onaning telefonida aks etadi.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= TAB 6: DISPETCHER / OPERATOR ================= -->
+        <div id="tab-dispatcher" class="tab-view" style="display: none;">
+          <div id="dispatcher-container">
+            <!-- Rendered dynamically by dispatcher.js -->
+          </div>
+        </div>
+
+      </main>
+
+      <!-- BOTTOM NAVIGATION BAR -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-tab="home" onclick="window.app.switchTab('home')">
+          <span class="nav-icon">🏠</span>
+          <span>Asosiy</span>
+        </button>
+        <button class="nav-item" data-tab="services" onclick="window.app.switchTab('services')">
+          <span class="nav-icon">🚗</span>
+          <span>Xizmatlar</span>
+        </button>
+        <button class="nav-item" data-tab="smarthome" onclick="window.app.switchTab('smarthome')">
+          <span class="nav-icon">💡</span>
+          <span>Aqlli Uy</span>
+        </button>
+        <button class="nav-item" data-tab="finance" onclick="window.app.switchTab('finance')">
+          <span class="nav-icon">📊</span>
+          <span>Moliya</span>
+        </button>
+        <button class="nav-item" data-tab="profile" onclick="window.app.switchTab('profile')">
+          <span class="nav-icon">🎓</span>
+          <span>Titul</span>
+        </button>
+      </nav>
+
+      <!-- TOAST NOTIFICATION -->
+      <div id="toast-notification" class="toast-msg">
+        <span>🔔</span>
+        <span>Xabarnoma matni</span>
+      </div>
+
+      <!-- MODAL SHEET FOR ORDERING SERVICES -->
+      <div class="modal-overlay" id="order-modal-overlay" onclick="if(event.target === this) window.services.closeModal()">
+        <div class="modal-sheet">
+          <div class="sheet-handle"></div>
+          <div id="order-form-container">
+            <!-- Dynamic form content -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/audio.js"></script>
+  <script src="js/map-simulator.js"></script>
+  <script src="js/smarthome.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/finance.js"></script>
+  <script src="js/dispatcher.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

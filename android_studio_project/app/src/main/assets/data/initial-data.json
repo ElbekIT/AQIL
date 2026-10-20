@@ -1,0 +1,338 @@
+{
+  "institution": {
+    "name": "Toshkent Menejment va Iqtisodiyot Instituti",
+    "campus": "Farg'ona kampusi",
+    "faculty": "Iqtisodiyot va menejment",
+    "stage": "1-bosqich",
+    "author": "Sharofiddinova Nozima Egamberdi qizi",
+    "project_title": "“AQLLI UY” BOSHQARUVI VA OILALAR UCHUN KOMPLEKS XIZMATLAR TIZIMI",
+    "city": "Farg'ona shahri",
+    "year": 2026,
+    "motto": "Xavfsizlik, ishonchlilik va oilaviy xotirjamlik — bitta raqamli tizimda"
+  },
+  "financial_model": {
+    "initial_capital": {
+      "total": 76000000,
+      "items": [
+        {"name": "Veb-sayt va dastlabki buyurtma tizimi", "amount": 30000000, "icon": "globe"},
+        {"name": "Tashkiliy-huquqiy ishlar va shartnomalar", "amount": 5000000, "icon": "file-text"},
+        {"name": "Dastlabki reklama va targ'ibot", "amount": 10000000, "icon": "megaphone"},
+        {"name": "Bolalar xavfsizligi jihozlari (kreslolar)", "amount": 8000000, "icon": "shield"},
+        {"name": "Avtomobilga yordam asbob-uskunalari", "amount": 8000000, "icon": "tool"},
+        {"name": "Xodimlar formasi va logotip", "amount": 3000000, "icon": "user-check"},
+        {"name": "Telefonlar va operator ish jihozlari", "amount": 4000000, "icon": "phone"},
+        {"name": "Kutilmagan xarajatlar zaxirasi", "amount": 8000000, "icon": "pie-chart"}
+      ]
+    },
+    "monthly_fixed_costs": {
+      "total": 18500000,
+      "items": [
+        {"name": "Operator yoki dispetcher xizmati", "amount": 6000000},
+        {"name": "Loyiha koordinatori maoshi", "amount": 6000000},
+        {"name": "Buxgalteriya xizmatlari", "amount": 1500000},
+        {"name": "Telefon, internet va dasturiy ta'minot", "amount": 1000000},
+        {"name": "Joriy reklama xarajatlari", "amount": 2000000},
+        {"name": "Ma'muriy va kantselyariya xarajatlari", "amount": 2000000}
+      ]
+    },
+    "three_month_budget": {
+      "initial_setup": 76000000,
+      "fixed_costs_3m": 55500000,
+      "working_capital": 15000000,
+      "total": 146500000
+    },
+    "unit_economics": [
+      {
+        "id": "kids_transport",
+        "title": "Bolani maktab/bog'chadan olib kelish",
+        "client_price": 45000,
+        "direct_cost": 38000,
+        "margin": 7000,
+        "cost_breakdown": {
+          "driver_fee": 25000,
+          "fuel": 8000,
+          "order_processing": 5000
+        }
+      },
+      {
+        "id": "appliance_repair",
+        "title": "Maishiy texnikani ta'mirlash (diagnostika + ta'mir)",
+        "client_price": 120000,
+        "direct_cost": 100000,
+        "margin": 20000,
+        "cost_breakdown": {
+          "master_fee": 80000,
+          "travel": 15000,
+          "order_processing": 5000
+        }
+      },
+      {
+        "id": "roadside_sos",
+        "title": "Avtomobilga yo'lda tezkor texnik yordam",
+        "client_price": 170000,
+        "direct_cost": 130000,
+        "margin": 40000,
+        "cost_breakdown": {
+          "mechanic_fee": 100000,
+          "travel": 20000,
+          "order_processing": 10000
+        }
+      },
+      {
+        "id": "weekend_group_daycare",
+        "title": "Dam olish kunlari guruh nazorati (5 nafar bola)",
+        "client_price": 300000,
+        "direct_cost": 220000,
+        "margin": 80000,
+        "cost_breakdown": {
+          "nanny_fee": 120000,
+          "materials": 30000,
+          "rent_utilities": 50000,
+          "coordination": 20000
+        }
+      },
+      {
+        "id": "weekend_home_nanny",
+        "title": "Uyda yakka tartibda bolani nazorat qilish (4 soat)",
+        "client_price": 180000,
+        "direct_cost": 150000,
+        "margin": 30000,
+        "cost_breakdown": {
+          "nanny_fee": 120000,
+          "travel": 20000,
+          "coordination": 10000
+        }
+      }
+    ],
+    "break_even": {
+      "monthly_fixed": 18500000,
+      "avg_unit_margin": 25000,
+      "required_orders": 740
+    }
+  },
+  "drivers": [
+    {
+      "id": "DRV-101",
+      "name": "Otabek Qodirov",
+      "phone": "+998 90 123-45-67",
+      "car": "Chevrolet Cobalt (Oq)",
+      "car_number": "40 A 777 BA",
+      "rating": 4.98,
+      "trips": 412,
+      "safety_seat": "Mavjud (ISOFIX 3-12 yosh)",
+      "avatar": "👨‍✈️",
+      "verified": true,
+      "experience": "8 yil tajriba"
+    },
+    {
+      "id": "DRV-102",
+      "name": "Dilshod Usmonov",
+      "phone": "+998 91 234-56-78",
+      "car": "Chevrolet Gentra (Qora)",
+      "car_number": "40 B 555 AA",
+      "rating": 4.95,
+      "trips": 320,
+      "safety_seat": "Mavjud (2 dona)",
+      "avatar": "🚗",
+      "verified": true,
+      "experience": "6 yil tajriba"
+    },
+    {
+      "id": "DRV-103",
+      "name": "Malika Karimova",
+      "phone": "+998 93 345-67-89",
+      "car": "Chevrolet Tracker (Moviy)",
+      "car_number": "40 C 333 CA",
+      "rating": 5.0,
+      "trips": 280,
+      "safety_seat": "Mavjud (Barcha yoshdagi)",
+      "avatar": "👩‍✈️",
+      "verified": true,
+      "experience": "5 yil tajriba (Ayol haydovchi)"
+    }
+  ],
+  "nannies": [
+    {
+      "id": "NAN-201",
+      "name": "Nargiza Ergasheva",
+      "phone": "+998 90 456-78-90",
+      "specialty": "Pedagog-tarbiyachi (Boshlang'ich ta'lim)",
+      "rating": 4.99,
+      "reviews": 84,
+      "avatar": "👩‍🏫",
+      "verified": true,
+      "skills": ["Rasm chizish", "Shaxmat", "Uy vazifasi", "Ingliz tili"]
+    },
+    {
+      "id": "NAN-202",
+      "name": "Gulnoza Rahimova",
+      "phone": "+998 91 567-89-01",
+      "specialty": "Psixolog, defektolog",
+      "rating": 4.96,
+      "reviews": 65,
+      "avatar": "👩‍⚕️",
+      "verified": true,
+      "skills": ["Mantiqiy o'yinlar", "Kitobxonlik", "Teatr san'ati", "Sog'lom taomnoma"]
+    }
+  ],
+  "technicians": [
+    {
+      "id": "TECH-301",
+      "name": "Rustam Aliyev",
+      "phone": "+998 97 678-90-12",
+      "specialty": "Kir yuvish va muzlatgich mutaxassisi",
+      "rating": 4.94,
+      "experience": "11 yil",
+      "avatar": "👨‍🔧",
+      "verified": true,
+      "warranty": "6 oygacha rasmiy kafolat"
+    },
+    {
+      "id": "TECH-302",
+      "name": "Jasurbek To'xtasinov",
+      "phone": "+998 94 789-01-23",
+      "specialty": "Televizor, plita va mikroto'lqinli pechlar",
+      "rating": 4.92,
+      "experience": "7 yil",
+      "avatar": "⚡",
+      "verified": true,
+      "warranty": "3 oydan 12 oygacha kafolat"
+    }
+  ],
+  "auto_sos_units": [
+    {
+      "id": "SOS-401",
+      "name": "Farg'ona Avto SOS Brigadasi #1",
+      "phone": "+998 93 890-12-34",
+      "car": "Mobil Servis Labo",
+      "services": ["Akkumulyator quvvatlash", "G'ildirak ta'miri", "Avtoelektrik"],
+      "eta": "10-15 daqiqa",
+      "avatar": "🛠️"
+    },
+    {
+      "id": "SOS-402",
+      "name": "Evakuator Farg'ona 24/7",
+      "phone": "+998 90 901-23-45",
+      "car": "Isuzu Evakuator",
+      "services": ["Evakuator", "Ustaxonaga xavfsiz yetkazish"],
+      "eta": "15-20 daqiqa",
+      "avatar": "🚛"
+    }
+  ],
+  "smart_home_devices": [
+    {
+      "id": "light_living",
+      "name": "Mehmonxona yoritgichi",
+      "room": "Mehmonxona",
+      "type": "light",
+      "state": true,
+      "brightness": 85,
+      "color": "#fffaed",
+      "power_watts": 40
+    },
+    {
+      "id": "light_kids",
+      "name": "Bolalar xonasi chirog'i",
+      "room": "Bolalar xonasi",
+      "type": "light",
+      "state": true,
+      "brightness": 60,
+      "color": "#e0f2fe",
+      "power_watts": 25
+    },
+    {
+      "id": "door_lock",
+      "name": "Asosiy eshik aqlli qulfi (Smart Lock)",
+      "room": "Dahliz",
+      "type": "lock",
+      "state": true,
+      "battery": 94,
+      "last_opened": "17:45 (Ota-ona masofaviy ruxsati bilan)"
+    },
+    {
+      "id": "climate_ac",
+      "name": "Aqlli iqlim nazorati (AC & Isitish)",
+      "room": "Umumiy",
+      "type": "climate",
+      "state": true,
+      "target_temp": 22.5,
+      "current_temp": 23.0,
+      "mode": "Avto (Salqin/Iliq)"
+    },
+    {
+      "id": "sensor_gas",
+      "name": "Aqlli gaz sizib chiqish datchigi",
+      "room": "Oshxona",
+      "type": "sensor",
+      "state": "normal",
+      "value": "0.01% (Xavfsiz)",
+      "status": "Me'yorda"
+    },
+    {
+      "id": "sensor_water",
+      "name": "Suv sizib chiqish datchigi",
+      "room": "Hammom",
+      "type": "sensor",
+      "state": "normal",
+      "value": "Quruq",
+      "status": "Me'yorda"
+    },
+    {
+      "id": "cam_hallway",
+      "name": "Dahliz va kirish videokamerasi",
+      "room": "Kirish",
+      "type": "camera",
+      "state": true,
+      "resolution": "2K Ultra HD",
+      "status": "Faol (Bolalar kelishi qayd etildi)"
+    }
+  ],
+  "demo_orders": [
+    {
+      "id": "ORD-8821",
+      "service_type": "kids_transport",
+      "title": "Maktabdan uyga olib kelish",
+      "client_name": "Azizbek Rahimov (Ota)",
+      "child_name": "Madinaxon (7 yosh, 1-sinf)",
+      "phone": "+998 90 111-22-33",
+      "pickup_location": "2-sonli maktab, Al-Farg'oniy ko'chasi",
+      "dropoff_location": "B.Marg'inoniy ko'chasi, 14-uy",
+      "assigned_to": "Otabek Qodirov (Cobalt 40 A 777 BA)",
+      "pin_code": "4892",
+      "price": 45000,
+      "status": "in_progress",
+      "status_label": "Harakatlanmoqda",
+      "eta": "8 daqiqa",
+      "timestamp": "Bugun, 14:15"
+    },
+    {
+      "id": "ORD-8819",
+      "service_type": "weekend_group_daycare",
+      "title": "Shanbalik bolalar rivojlanish guruhi",
+      "client_name": "Nargiza Karimova (Ona)",
+      "child_name": "Umarbek (5 yosh)",
+      "phone": "+998 91 333-44-55",
+      "pickup_location": "Farg'ona Markaziy Bolalar Klubi",
+      "dropoff_location": "Markaz",
+      "assigned_to": "Nargiza Ergasheva (Pedagog)",
+      "pin_code": "7731",
+      "price": 60000,
+      "status": "scheduled",
+      "status_label": "Shanbaga rejalashtirilgan",
+      "timestamp": "Shanba, 09:30"
+    },
+    {
+      "id": "ORD-8815",
+      "service_type": "appliance_repair",
+      "title": "Kir yuvish mashinasini ta'mirlash",
+      "client_name": "Jamshid Toirov",
+      "phone": "+998 93 444-55-66",
+      "pickup_location": "Sayilgoh ko'chasi, 55-xonadon",
+      "assigned_to": "Rustam Aliyev (Usta)",
+      "price": 120000,
+      "status": "completed",
+      "status_label": "Muvaffaqiyatli yakunlandi",
+      "timestamp": "Kecha, 16:30"
+    }
+  ]
+}

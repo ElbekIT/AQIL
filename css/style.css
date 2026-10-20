@@ -1567,4 +1567,260 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+/* ==========================================================================
+   MANDATORY GOOGLE AUTH GATE SCREEN STYLING
+   ========================================================================== */
+.auth-gate-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: linear-gradient(170deg, #090d16 0%, #0f172a 45%, #131b2e 100%);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 20px;
+  overflow: hidden;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-gate-screen.hidden {
+  opacity: 0;
+  transform: scale(0.96) translateY(-10px);
+  pointer-events: none;
+}
+
+.auth-gate-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glow-1 {
+  width: 260px;
+  height: 260px;
+  background: rgba(37, 99, 235, 0.3);
+  top: -40px;
+  right: -40px;
+}
+
+.glow-2 {
+  width: 220px;
+  height: 220px;
+  background: rgba(16, 185, 129, 0.2);
+  bottom: -40px;
+  left: -40px;
+}
+
+.auth-gate-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.auth-gate-logo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.auth-gate-logo-icon {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #059669 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth-shield-mini {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 18px;
+  background: #0f172a;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.auth-gate-title {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 4px;
+}
+
+.auth-gate-tagline {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+  max-width: 280px;
+  line-height: 1.4;
+}
+
+.auth-gate-tmii-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+  font-size: 10px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.auth-gate-features {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.auth-feat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 9px 12px;
+  text-align: left;
+  backdrop-filter: blur(10px);
+}
+
+.auth-feat-icon {
+  font-size: 20px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.auth-feat-item h5 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 2px;
+}
+
+.auth-feat-item p {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.auth-gate-action-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.auth-required-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #60a5fa;
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+}
+
+.auth-gate-google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #ffffff;
+  color: #1f2937;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 13px 20px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(66, 133, 244, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-gate-google-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(66, 133, 244, 0.6);
+  background: #f8fafc;
+}
+
+.auth-gate-google-btn:active {
+  transform: scale(0.98);
+}
+
+.auth-gate-demo-link {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-gate-demo-link:hover {
+  opacity: 1;
+  color: #60a5fa;
+}
+
+.auth-gate-secure-note {
+  font-size: 10px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.auth-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
 

@@ -102,6 +102,13 @@ class AqilApp {
 
   switchTab(tabName) {
     if (window.soundFX) window.soundFX.playTap();
+
+    // Agar tizimga kirmagan bo'lsa, majburiy kirish oynasini ko'rsatish
+    if (window.authManager && window.authManager.currentUser && !window.authManager.currentUser.isLoggedIn) {
+      window.authManager.checkAuthGate();
+      return;
+    }
+
     this.currentTab = tabName;
 
     // Update bottom nav active state

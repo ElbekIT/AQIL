@@ -15,7 +15,7 @@ class AuthManager {
     // Boshlang'ich standart profil (Taqdimotchi — Nozima Sharofiddinova)
     this.defaultProfile = {
       uid: "tmii_nozima_2026",
-      isLoggedIn: true,
+      isLoggedIn: false, // Majburiy kirish: birinchi kirishda Google orqali kirish talab etiladi
       isDemo: true,
       provider: "google_ready",
       displayName: "Nozima Sharofiddinova",
@@ -45,6 +45,27 @@ class AuthManager {
 
     // 3. UI ni boshlang'ich ma'lumotlar bilan yangilash
     this.notifyListeners();
+
+    // 4. Majburiy kirish ekranini tekshirish
+    this.checkAuthGate();
+  }
+
+  checkAuthGate() {
+    const gate = document.getElementById("auth-gate-screen");
+    if (!gate) return;
+    if (this.currentUser && this.currentUser.isLoggedIn) {
+      gate.classList.add("hidden");
+      setTimeout(() => {
+        if (this.currentUser && this.currentUser.isLoggedIn) {
+          gate.style.display = "none";
+        }
+      }, 400);
+    } else {
+      gate.style.display = "flex";
+      setTimeout(() => {
+        gate.classList.remove("hidden");
+      }, 10);
+    }
   }
 
   loadLocalProfile() {
@@ -53,12 +74,12 @@ class AuthManager {
       if (saved) {
         this.currentUser = JSON.parse(saved);
       } else {
-        this.currentUser = { ...this.defaultProfile };
+        this.currentUser = { ...this.defaultProfile, isLoggedIn: false };
         this.saveLocalProfile();
       }
     } catch (e) {
       console.warn("Profil yuklashda xatolik:", e);
-      this.currentUser = { ...this.defaultProfile };
+      this.currentUser = { ...this.defaultProfile, isLoggedIn: false };
     }
   }
 
@@ -138,15 +159,22 @@ class AuthManager {
   async loginWithGoogle() {
     if (window.soundFX) window.soundFX.playTap();
 
+    const gateBtn = document.getElementById("auth-gate-google-btn");
+    const origHtml = gateBtn ? gateBtn.innerHTML : null;
+    if (gateBtn) {
+      gateBtn.innerHTML = `<span class="auth-spinner"></span> <span>Google tasdiqlanmoqda...</span>`;
+      gateBtn.disabled = true;
+    }
+
     if (!navigator.onLine) {
       if (window.app) window.app.showToast("⚠️ Internet aloqasi yo'q. Standalone rejim ishlamoqda.");
+      if (gateBtn && origHtml) { gateBtn.innerHTML = origHtml; gateBtn.disabled = false; }
       return;
     }
 
     // Firebase tayyormi tekshirish
     if (!window.aqilFirebase || !window.aqilFirebase.auth || !window.aqilFirebase.googleProvider) {
       console.warn("Firebase Auth moduli yuklanmoqda...");
-      // Qo'lda qayta initsializatsiya urinishi
       if (typeof firebase !== "undefined" && firebase.auth) {
         window.aqilFirebase.auth = firebase.auth();
         window.aqilFirebase.googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -164,6 +192,7 @@ class AuthManager {
           if (window.app) {
             window.app.showToast(`🎉 Xush kelibsiz, ${this.currentUser.firstName}! Google orqali kirdingiz.`);
           }
+          this.checkAuthGate();
           return result.user;
         }
       } else {
@@ -189,6 +218,11 @@ class AuthManager {
         }
         this.loginAsDemo();
       }
+    } finally {
+      if (gateBtn && origHtml && (!this.currentUser || !this.currentUser.isLoggedIn)) {
+        gateBtn.innerHTML = origHtml;
+        gateBtn.disabled = false;
+      }
     }
   }
 
@@ -197,12 +231,12 @@ class AuthManager {
    */
   loginAsDemo() {
     if (window.soundFX) window.soundFX.playSuccess();
-    this.currentUser = { ...this.defaultProfile };
-    this.currentUser.isLoggedIn = true;
+    this.currentUser = { ...this.defaultProfile, isLoggedIn: true };
     this.saveLocalProfile();
     this.notifyListeners();
+    this.checkAuthGate();
     if (window.app) {
-      window.app.showToast(`✅ Nozima Sharofiddinova profili faollashtirildi!`);
+      window.app.showToast(`✅ Nozima Sharofiddinova hisobi bilan kirildi!`);
     }
   }
 
@@ -222,10 +256,10 @@ class AuthManager {
     this.currentUser = {
       ...this.defaultProfile,
       isLoggedIn: false,
-      displayName: "Mehmon Foydalanuvchi",
-      firstName: "Mehmon",
+      displayName: "Foydalanuvchi",
+      firstName: "",
       lastName: "",
-      email: "kirish_qilinmagan@aqil.uz",
+      email: "",
       bio: "Profil sozlamalarini boshqarish uchun Google orqali kiring.",
       balance: 0,
       cashback: 0
@@ -233,7 +267,8 @@ class AuthManager {
 
     this.saveLocalProfile();
     this.notifyListeners();
-    if (window.app) window.app.showToast("🚪 Tizimdan muvaffaqiyatli chiqildi.");
+    this.checkAuthGate();
+    if (window.app) window.app.showToast("🚪 Tizimdan chiqildi. Google orqali qayta kiring.");
   }
 
   /**
@@ -328,6 +363,9 @@ class AuthManager {
 
     // Headerdagi foydalanuvchi ma'lumotlarini to'g'ridan-to'g'ri yangilash
     this.updateHeaderBadge();
+
+    // Majburiy kirish oynasini boshqarish
+    this.checkAuthGate();
   }
 
   updateHeaderBadge() {
